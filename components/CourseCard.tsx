@@ -15,13 +15,13 @@ export default function CourseCard({ course, status, available, toggle }: Props)
     status === "approved"
       ? "bg-green-500 text-white"
       : available
-      ? "bg-blue-500 text-white"
-      : "bg-gray-200";
+      ? "bg-gradient-to-br from-indigo-500 to-purple-500 text-white"
+      : "bg-gray-200 text-gray-600";
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className={`p-3 rounded shadow cursor-pointer transition-colors duration-300 ${base}`}
+      className={`p-4 rounded-xl shadow-lg cursor-pointer transition-all duration-300 ${base}`}
       onClick={toggle}
     >
       <p className="font-semibold">{course.name}</p>

@@ -9,8 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "bcryptjs": "^3.0.2",
     "framer-motion": "^11",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",
+    "nodemailer": "^7.0.6",
+    "prisma": "^6.15.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
@@ -23,6 +28,10 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
