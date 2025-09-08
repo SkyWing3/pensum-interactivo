@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { courses } from '../data/courses';
+// Explicit extension to ensure Node can resolve the TypeScript module when
+// running via ts-node
+import { courses } from '../data/courses.ts';
 
 const prisma = new PrismaClient();
 
