@@ -147,38 +147,30 @@ export default function Home() {
           Cerrar sesión
         </button>
       </header>
-      <div className="flex flex-1 overflow-x-auto">
-        <aside className="hidden md:flex w-24 bg-[var(--color-secondary)] items-center justify-center font-semibold text-[var(--color-text)]">
-          <span className="rotate-[-90deg]">Semestres</span>
-        </aside>
-        <main className="flex-1 p-6">
-          <div
-            className="grid gap-6"
-            style={{ gridTemplateColumns: `repeat(${semesters.length}, minmax(0,1fr))` }}
-          >
-            {semesters.map(s => (
-              <div key={s}>
-                <div className="bg-[var(--color-secondary)] text-center font-semibold py-2 text-[var(--color-text)]">
-                  Semestre {s}
-                </div>
-                <div className="mt-4 flex flex-col gap-4">
-                  {courses
-                    .filter(c => c.semester === s)
-                    .map(c => (
-                      <CourseCard
-                        key={c.id}
-                        course={c}
-                        status={statusFor(c.id)}
-                        available={isAvailable(c.id)}
-                        toggle={() => toggleCourse(c.id)}
-                      />
-                    ))}
-                </div>
+      <main className="flex-1 p-6 overflow-x-auto">
+        <div className="space-y-8">
+          {semesters.map(s => (
+            <div key={s} className="flex items-start gap-4">
+              <div className="bg-[var(--color-secondary)] min-w-[8rem] text-center font-semibold py-2 text-[var(--color-text)]">
+                Semestre {s}
               </div>
-            ))}
-          </div>
-        </main>
-      </div>
+              <div className="flex flex-wrap gap-4 flex-1">
+                {courses
+                  .filter(c => c.semester === s)
+                  .map(c => (
+                    <CourseCard
+                      key={c.id}
+                      course={c}
+                      status={statusFor(c.id)}
+                      available={isAvailable(c.id)}
+                      toggle={() => toggleCourse(c.id)}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
     </div>
   );
 }

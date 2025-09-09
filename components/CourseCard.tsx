@@ -21,7 +21,7 @@ export default function CourseCard({ course, status, available, toggle }: Props)
     <motion.div
       whileHover={available ? { scale: 1.05 } : undefined}
       whileTap={available ? { scale: 0.95 } : undefined}
-      className={`p-4 rounded-lg shadow ${base}`}
+      className={`p-4 rounded-lg shadow min-w-[10rem] ${base}`}
       onClick={available ? toggle : undefined}
     >
       <p className="font-semibold">{course.name}</p>
