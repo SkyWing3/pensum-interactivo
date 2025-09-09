@@ -4,7 +4,7 @@ import { useState } from 'react';
 export default function Forgot() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handle = async () => {
     const res = await fetch("/api/auth/request-reset", {
@@ -12,33 +12,26 @@ export default function Forgot() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-    const data = await res.json();
-    setPreview(data.preview ?? null);
-    setSent(true);
+    if (res.ok) {
+      setSent(true);
+      setError(null);
+    } else {
+      const data = await res.json().catch(() => null);
+      setError(data?.error || "No se pudo enviar el correo");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 p-4">
       <div className="bg-white/80 backdrop-blur p-8 rounded-xl shadow-xl w-full max-w-md">
         {sent ? (
-          preview ? (
-            <p className="text-center text-indigo-700">
-              Enlace de prueba:{" "}
-              <a
-                href={preview}
-                className="underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Restablecer contraseña
-              </a>
-            </p>
-          ) : (
-            <p className="text-center text-indigo-700">Revisa tu correo para continuar.</p>
-          )
+          <p className="text-center text-indigo-700">Revisa tu correo para continuar.</p>
         ) : (
           <>
             <h1 className="text-2xl font-bold mb-6 text-center text-indigo-700">Recuperar contraseña</h1>
+            {error && (
+              <p className="text-center text-red-500 mb-4">{error}</p>
+            )}
             <input
               type="email"
               placeholder="Correo"
