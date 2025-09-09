@@ -4,13 +4,16 @@ import { useState } from 'react';
 export default function Forgot() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const handle = async () => {
-    await fetch("/api/auth/request-reset", {
+    const res = await fetch("/api/auth/request-reset", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
+    const data = await res.json();
+    setPreview(data.preview ?? null);
     setSent(true);
   };
 
@@ -18,7 +21,21 @@ export default function Forgot() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 p-4">
       <div className="bg-white/80 backdrop-blur p-8 rounded-xl shadow-xl w-full max-w-md">
         {sent ? (
-          <p className="text-center text-indigo-700">Revisa tu correo para continuar.</p>
+          preview ? (
+            <p className="text-center text-indigo-700">
+              Enlace de prueba:{" "}
+              <a
+                href={preview}
+                className="underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Restablecer contraseña
+              </a>
+            </p>
+          ) : (
+            <p className="text-center text-indigo-700">Revisa tu correo para continuar.</p>
+          )
         ) : (
           <>
             <h1 className="text-2xl font-bold mb-6 text-center text-indigo-700">Recuperar contraseña</h1>
