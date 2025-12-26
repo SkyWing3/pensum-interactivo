@@ -1,11 +1,12 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
-import { verifyToken } from '../../../lib/auth';
+import { NextResponse } from "next/server";
+import { prisma, ensureDb } from "../../../lib/prisma";
+import { verifyToken } from "../../../lib/auth";
 
 export async function GET(req: Request) {
-  const token = req.headers.get('authorization')?.split(' ')[1] || '';
+  await ensureDb();
+  const token = req.headers.get("authorization")?.split(" ")[1] || "";
   const data = verifyToken(token);
-  if (!data) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!data) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const records = await prisma.userCourse.findMany({ where: { userId: data.userId } });
   const map: Record<string, string> = {};
   records.forEach(r => (map[r.courseId] = r.status));
@@ -13,9 +14,10 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const token = req.headers.get('authorization')?.split(' ')[1] || '';
+  await ensureDb();
+  const token = req.headers.get("authorization")?.split(" ")[1] || "";
   const data = verifyToken(token);
-  if (!data) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!data) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { courseId, status } = await req.json();
   await prisma.userCourse.upsert({
     where: { userId_courseId: { userId: data.userId, courseId } },

@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '../../../lib/prisma';
+﻿import { NextResponse } from "next/server";
+import { courses } from "../../../data/courses";
+import { ensureDb } from "../../../lib/prisma";
 
 export async function GET() {
-  const courses = await prisma.course.findMany();
+  await ensureDb();
   return NextResponse.json(courses);
 }

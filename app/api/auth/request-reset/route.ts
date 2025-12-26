@@ -1,23 +1,24 @@
-import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
-import { prisma } from '../../../../lib/prisma';
+import { NextResponse } from "next/server";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import { prisma, ensureDb } from "../../../../lib/prisma";
 
 export async function POST(req: Request) {
+  await ensureDb();
   const { email } = await req.json();
   const user = await prisma.user.findUnique({ where: { email } });
 
   let preview: string | undefined;
 
   if (user) {
-    const token = crypto.randomBytes(32).toString('hex');
+    const token = crypto.randomBytes(32).toString("hex");
     const exp = new Date(Date.now() + 60 * 60 * 1000);
     await prisma.user.update({
       where: { id: user.id },
       data: { resetToken: token, resetTokenExp: exp },
     });
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reset/${token}`;
+    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset/${token}`;
 
     let transporter;
     if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
@@ -38,9 +39,9 @@ export async function POST(req: Request) {
 
     const info = await transporter.sendMail({
       to: email,
-      from: process.env.SMTP_FROM || 'noreply@example.com',
-      subject: 'Restablece tu contraseÃ±a',
-      text: `Ingresa al siguiente enlace para restablecer tu contraseÃ±a: ${resetUrl}`,
+      from: process.env.SMTP_FROM || "noreply@example.com",
+      subject: "Restablece tu contraseña",
+      text: `Ingresa al siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
     });
 
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {

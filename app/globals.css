@@ -1,24 +1,40 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  --color-primary: #005b7f;
-  --color-secondary: #f6b700;
-  --color-background: #f8f9fa;
+  --color-background: #f7f4ee;
   --color-surface: #ffffff;
-  --color-text: #1a1a1a;
+  --color-ink: #1a2b2b;
+  --color-heading: #0f1f1f;
+  --color-muted: #6b7280;
+  --color-accent: #0f6b6b;
+  --color-accent-strong: #0b5757;
 }
 
 @theme inline {
   --color-background: var(--color-background);
-  --color-foreground: var(--color-text);
-  --color-primary: var(--color-primary);
-  --color-secondary: var(--color-secondary);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-foreground: var(--color-ink);
+  --color-primary: var(--color-accent);
+  --color-secondary: #e2b44a;
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-heading);
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-text);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, rgba(226, 180, 74, 0.18), transparent 55%),
+    radial-gradient(circle at 20% 30%, rgba(15, 107, 107, 0.1), transparent 45%),
+    var(--color-background);
+  color: var(--color-ink);
+  font-family: var(--font-body), "Work Sans", sans-serif;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), "Sora", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
