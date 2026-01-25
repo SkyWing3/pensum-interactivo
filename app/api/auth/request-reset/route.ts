@@ -40,8 +40,8 @@ export async function POST(req: Request) {
     const info = await transporter.sendMail({
       to: email,
       from: process.env.SMTP_FROM || "noreply@example.com",
-      subject: "Restablece tu contraseña",
-      text: `Ingresa al siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
+      subject: "Restablece tu contraseÃ±a",
+      text: `Ingresa al siguiente enlace para restablecer tu contraseÃ±a: ${resetUrl}`,
     });
 
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
